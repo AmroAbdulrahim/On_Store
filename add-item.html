@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Adding</title>
+    <style>
+        body{
+            padding: 50px 80px;
+            background-color: #eee;
+        }
+
+        form{
+            display: flex;
+            flex-direction: column;
+        }
+
+        input,textarea,select{
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        button{
+            background-color: #ffffff;
+            border-color: red;
+            border-radius: 5px;
+            width: 200px;
+            height: 50px;
+            box-shadow: 0 0 10px 0px red;
+            margin: 0 auto;
+            font-size: large;
+            font-weight: bold;
+        }
+        button:hover{
+            border-color: #0d6efd;
+            box-shadow: 0 0 10px 0px #0d6efd;
+
+        }
+
+        h1{
+            text-align: center;
+            border-bottom: 2px solid #c90101;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Product Addition Station</h1>
+    <form action="/add-item" method="post" enctype="multipart/form-data">
+        <label for="post-title" class="col-form-label">image item</label>
+        <input name="image" type="file" class="form-control" id="post-file">
+        <label for="post-title" class="col-form-label">Name of item</label>
+        <input name="name" type="text" class="form-control" id="post-title">
+        <textarea name="detalls" id="post-body" style="width: 100%; height:100px"></textarea>
+        <label for="post-title" class="col-form-label">pric</label>
+        <input name="pric" type="number" class="form-control" id="post-title">
+        <select style="background-color: white;" name="section" id="sections" class="form-select">
+            <option value="clothes">clothes</option>
+            <option value="accessories">accessories</option>
+            <option value="Devices">Devices</option>
+            <option value="Other">Other</option>
+        </select>
+        <button>Add</button>
+    </form>
+</body>
+</html>

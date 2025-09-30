@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div id="all-data">
+        <div id="div-data" style="border: 1px solid black; padding: 10px;">
+            <div id="user-data">
+                <h2>00</h2>
+                <h3>Name</h3>
+                <h3>email</h3>
+                <h3>phone</h3>
+                <h3>address</h3>
+            </div>
+            <div>
+                <!-- <table class="table">
+                    <thead >
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">number</th>
+                        <th scope="col">pric</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="table-group-divider">
+                        <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">3</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>@social</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Total Pric</th>
+                            <td></td>
+                            <td></td>
+                            <th id="totalPric"></th>
+                        </tr>
+                    </tfoot>
+                </table> -->
+            </div>
+        </div>
+    </div>
+</body>
+    <script>
+
+        let cartCounter = 0
+        let totalPric = 0
+        
+        
+        fetch("http://localhost:8000/api/orders")
+        .then(res => res.json())
+        .then(data => {
+            let divData = document.getElementById("div-data")
+            let allData = document.getElementById("all-data")
+            let userData = document.getElementById("user-data")
+            userData.innerHTML = ""
+            console.log(data)
+        //     data.forEach(order => {
+        //         // console.log(order); // أو اعرضها في جدول HTML
+        //         // console.log(order.date)
+        //         // document.createElement("div")
+        //         console.log(order.user)
+        //         let userHTML = `
+        //         <h2>${cartCounter}</h2>
+        //         <h3>${order.user.username}</h3>
+        //         <h3>${order.user.email}</h3>
+        //         <h3>${order.user.phoneNumber}</h3>
+        //         <h3>${order.user.address}</h3>
+        //         `
+        //         userData.innerHTML = userHTML
+        //         userData.appendChild(divData)
+                
+        //         let items = order.items
+        //         let theTable = document.getElementById("table-body");
+        //         theTable.innerHTML = ""; 
+        //         items.forEach(item => {
+        //             console.log(item)
+
+        //             cartCounter += 1
+        //             let itemHTML = `
+        //                 <tr>
+        //                 <th scope="row">${cartCounter}</th>
+        //                 <td><img src="${item.image}" style="width: 50px"></img></td>
+        //                 <td>${item.name}</td>
+        //                 <td>${item.counter}</td>
+        //                 <td>${item.pric}</td>
+        //                 </tr>
+        //                 <br>
+        //             `
+        //             totalPric += Number(item.pric)
+        //             theTable.innerHTML += itemHTML
+        //             theTable.appendChild(divData)
+        //         })
+        //         divData.appendChild(allData)
+        //     });
+            data.forEach(order => {
+                // إنشاء كونتينر للطلبية
+                let orderContainer = document.createElement("div");
+                orderContainer.classList.add("order-container"); // لو داير تضيف ستايل بعدين
+
+                // بيانات المستخدم
+                let userHTML = `
+                    <h3>الطلبية رقم: ${cartCounter}</h3>
+                    <h4>الاسم: ${order.user.username}</h4>
+                    <h4>الإيميل: ${order.user.email}</h4>
+                    <h4>الهاتف: ${order.user.phoneNumber}</h4>
+                    <h4>العنوان: ${order.user.address}</h4>
+                `;
+                orderContainer.innerHTML += userHTML;
+
+                // جدول المنتجات
+                let tableHTML = `
+                    <table border="1" style="width: 100%; margin-top: 10px">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>صورة</th>
+                                <th>المنتج</th>
+                                <th>العدد</th>
+                                <th>السعر</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                let items = order.items;
+                items.forEach(item => {
+                    cartCounter += 1;
+                    totalPric += Number(item.pric);
+                    tableHTML += `
+                        <tr>
+                            <td>${cartCounter}</td>
+                            <td><img src="${item.image}" style="width: 50px"></td>
+                            <td>${item.name}</td>
+                            <td>${item.counter}</td>
+                            <td>${item.pric}</td>
+                        </tr>
+                    `;
+                });
+
+                tableHTML += `</tbody></table>`;
+                orderContainer.innerHTML += tableHTML;
+
+                // إضافة الطلبية كلها للصفحة
+                document.getElementById("all-data").appendChild(orderContainer);
+            });
+
+        });
+
+    </script>
+</html>
