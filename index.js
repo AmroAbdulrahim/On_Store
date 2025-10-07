@@ -207,12 +207,21 @@ app.get("/api/orders", function (req, res) {
     });
 });
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'home.html'));
+});
+
 
 mongoose.connect("mongodb+srv://amro:b0H1dskVc710Ym3h@cluster0.w2pykip.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0")
 .then(() => {
-    app.listen(8000, () => {
-        console.log("http://localhost:8000/home")
-    })
+    // app.listen(8000, () => {
+    //     console.log("http://localhost:8000/home")
+    // })
+    const PORT = process.env.PORT || 8000;
+    app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    });
+
 }).catch((err) => {
 
 });
